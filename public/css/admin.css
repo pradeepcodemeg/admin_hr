@@ -645,3 +645,8 @@ body .select2-container--default .select2-selection--single .select2-selection__
 .hidden-xs {
     display: block !important;
 }
+
+.light_pink {
+    background-color: #f3cfcf !important;
+    border-color: #f2dede !important;
+}

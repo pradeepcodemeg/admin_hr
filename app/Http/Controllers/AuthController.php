@@ -21,7 +21,6 @@ use DB;
  
 class AuthController extends Controller
 {
-     
     public function postLogin(Request $request)
     {
         $errors = new MessageBag;

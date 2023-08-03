@@ -51,13 +51,13 @@
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="role" value="preservice" required>
+                                        <input type="radio" name="role" value="Preservice" required>
                                         <span><i></i>Pre-service</span>
                                     </label>
                                 </div>
                                 <div class="radio">
                                     <label>
-                                        <input type="radio" name="role" value="supervisor" required>
+                                        <input type="radio" name="role" value="Supervisor" required>
                                         <span><i></i>Supervisor</span>
                                     </label>
                                 </div>

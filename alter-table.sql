@@ -1,0 +1,1 @@
+ALTER TABLE `trainings` ADD `assign_role` VARCHAR(50) NOT NULL COMMENT 'Assigned role can access this training' AFTER `training_deadline`;
