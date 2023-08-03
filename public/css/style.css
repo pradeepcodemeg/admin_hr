@@ -1,0 +1,433 @@
+
+@media screen and (min-width: 768px) {
+
+}
+
+/**-------------------**/
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+* a{
+  text-decoration: none !important;
+}
+*{
+  box-sizing: border-box;
+}
+body {
+    background: #fff;
+    /*font-family: 'Montserrat', sans-serif;*/
+    height:100%;
+}
+*{
+  outline: none !important;
+}
+/*************************************/
+.all-mails-list{
+  padding: 20px 0;
+}
+.all-mails-list .mail-list-body{
+  font-family: 'Montserrat', sans-serif;
+}
+.all-mails-list .mail-list-body .mail-body{
+  /* background: #fff; */
+}
+.all-mails-list .mail-list-body .mail-header {
+    padding: 12px 15px 10px;
+    background: #eee;
+    color: #000;
+    border-bottom: 1px solid #ddd;
+}
+.all-mails-list .mail-list-body .mail-header h1{
+  font-size: 18px;
+  /* color: #fff; */
+  margin: 0;
+}
+.all-mails-list .mail-list-body table{
+  width: 100%;
+  margin: 0;
+}
+.all-mails-list .mail-list-body table tbody tr.unseen{
+  background: rgba(0, 125, 251, 0.18) !important;
+}
+.all-mails-list .mail-list-body table tbody tr.unseen td,
+.all-mails-list .mail-list-body table tbody tr.unseen td a h5{
+  /* color: #fff; */
+}
+.all-mails-list .mail-list-body table tbody tr:hover{
+  /* box-shadow: inset 1px 0 0 rgba(255,255,255,0.2), 
+  inset -1px 0 0 rgba(255,255,255,0.2), 
+  0 0 4px 0 rgba(95,99,104,.6), 
+  0 0 6px 2px rgba(95,99,104,.6); */
+}
+.all-mails-list .mail-list-body table tbody tr{
+  border-bottom: 1px solid #eee;
+}
+.all-mails-list .mail-list-body table tbody tr td{
+  vertical-align: middle;
+  border: 0;
+  padding: 8px 15px;
+  font-size: 14px;
+}
+.all-mails-list .mail-list-body table tbody tr td.sender{
+  max-width: 168px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+  text-align: left;
+  color: #000
+}
+.all-mails-list .mail-list-body table tbody tr td.sender span{
+  text-transform: capitalize;
+}
+.all-mails-list .mail-list-body table tbody tr td.subject-mg{
+  padding: 15px 0;
+}
+.all-mails-list .mail-list-body table tbody tr td.subject-mg>a{
+  display: flex;
+  align-items: center;
+  color: #000;
+}
+.all-mails-list .mail-list-body table tbody tr td.subject-mg h5{
+  margin: 0;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.all-mails-list .mail-list-body table tbody tr td.subject-mg p{
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.all-mails-list .mail-list-body table tbody tr td.date span{
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+/*******************************/
+.mail-list-body{
+  /* box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.24); */
+}
+.mail-details-body{
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.15);
+}
+.mail-details-body .header{
+  border-bottom: 1px dashed #a5a5a5;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+.mail-details-body .header h2{
+  margin: 20px 0 35px;
+  font-size: 20px;
+  color: #000;
+  letter-spacing: .3px;
+}
+.sender-d .profile-txt .img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    position: relative;
+    float: left;
+}
+.sender-d .profile-txt .img img{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  max-width: inherit;
+  height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+.sender-d .profile-txt .txt {
+  margin-left: 55px;
+  padding-top: 4px;
+}
+.sender-d .profile-txt .txt p{
+  font-size: 13px;
+  color: #555;
+  margin: 0;
+}
+.sender-d .profile-txt .txt p label{
+  font-weight: 600;
+  color: #000;
+  margin: 0;
+  display: block;
+  font-size: 15px;
+}
+.sender-d .profile-txt{
+  float: left;
+}
+.sender-d .time-date{
+  float: right;
+  color: #5f6368;
+  font-size: 12px;
+  font-weight: 500;
+}
+.mail-details-body .inner-body{
+  background: #f8f9fa;
+  padding: 15px;
+}
+.mail-details-body .inner-body .img{
+  margin: 15px 0;
+  text-align: center;
+}
+.mail-details-body .inner-body .img img{
+  width: 120px;
+}
+.mail-details-body .inner-body .formate-mail p{
+  font-size: 14px;
+  color: #444444;
+}
+.back-btn{
+  margin-bottom: 15px;
+}
+.back-btn a{
+  color: #000;
+  font-size: 16px;
+  display: inline-block;
+}
+.mail-details-body .footer{
+  margin-top: 20px;
+}
+.mail-details-body .footer .reply i{
+  transform: rotate(180deg);
+}
+.mail-details-body .footer button{
+  min-width: 104px;
+  height: 36px;
+  margin-right: 12px;
+  color: #5f6368;
+  font-size: 12px;
+  border-radius: 4px;
+  border: 1px solid #a5a5a5;
+  background: #fff;
+  font-weight: 500;
+}
+.mail-details-body .footer button:hover{
+  background: rgba(32,33,36,0.059);
+}
+
+.compose-mail{
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: 0px 0px 15px rgba(0,0,0,0.12);
+}
+.compose-mail .m-header{
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+.compose-mail .m-header .select-box>span{
+  padding: 0 5px;
+}
+.compose-mail .m-header .select-box{
+  display: flex;
+  align-items: center;
+}
+.compose-mail .m-header .select-box .select2.select2-container{
+  min-width: 200px !important;
+  width: 100% !important;
+}
+.compose-mail .m-header .select-box .select2.select2-container .select2-selection{
+  border: 0 !important;
+  border-bottom: 1px solid #eaeaea  !important;
+  border-radius: 0;
+}
+
+.compose-mail .m-body{
+  padding: 20px 0;
+}
+.compose-mail .m-body textarea{
+  resize: none;
+  font-size: 14px;
+  color: #000;
+  padding: 10px;
+  transition: all 0.3s;
+  margin-top: 20px;
+}
+.compose-mail .m-body textarea.form-control:focus {
+  border-color: #efefef;
+  outline: 0;
+  box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.15);
+}
+.compose-mail .foot .left{
+  float: left;
+}
+.compose-mail .foot .left button{
+  height: 36px;
+  vertical-align: middle;
+}
+.compose-mail .foot .left .send{
+  border: 0;
+  font-size: 14px;
+  color: #fff;
+  background-color: #1a73e8;
+  border: 0;
+  border-radius: 4px;
+  margin-right: 10px;
+  padding: 0 20px;
+}
+.compose-mail .foot .left .attachment{
+  background: transparent;
+  border: 0;
+  font-size: 22px;
+  color: #696969;
+  padding: 0 10px;
+  cursor: pointer;
+}
+.compose-mail .foot .left .attachment label{
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  padding: 5px 0;
+  cursor: pointer;
+}
+.compose-mail .foot .left .attachment label input{
+  display: none;
+}
+.compose-mail .foot .left .attachment i{
+  /*transform: rotate(45deg);*/
+}
+.compose-mail .foot .right{
+  float: right;
+}
+.compose-mail .foot .right button{
+  background: transparent;
+  color: #696969;
+  font-size: 22px;
+  border: 0;
+  display: block;
+}
+.mail-details-body{
+  position: relative;
+}
+.f-popup, .r-popup{
+  padding: 20px;
+}
+.f-popup .f-popup-outer, .r-popup .r-popup-outer{
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  bottom: 0;
+  z-index: 999;
+  transition: all 0.3s;
+  visibility: hidden;
+  opacity: 0;
+}
+.reply-mail-popup .r-popup .r-popup-outer{
+  visibility: visible;
+  opacity: 1;
+}
+
+.forward-mail-popup .f-popup .f-popup-outer{
+  visibility: visible;
+  opacity: 1;
+}
+.attch-img{
+  margin: 20px 0;
+}
+.attch-img a{
+  display: inline-block;
+}
+.attch-img img{
+  width: 75px;
+}
+.table-responsive{
+  border: 0;
+}
+.all-mails-list .mail-list-body table tbody tr td.date {
+  text-align: right;
+}
+.compose-mail-btn {
+  margin-bottom: 20px;
+}
+
+.compose-mail-btn button {
+  border: 0;
+  background: #1083f6;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 45px;
+  border-radius: 30px;
+  transition: all 300ms;
+  box-shadow: 0 3px 10px rgba(16, 131, 246, 0.4);
+}
+.compose-mail-btn button:hover {
+    background-color: #0a74de;
+    border-color: #0a74de;
+}
+.all-mails-list .mail-list-body table tbody tr:hover {
+    background: #f9f9f9;
+}
+.all-mails-list .mail-list-body table tbody tr.unseen td.sender,.all-mails-list .mail-list-body table tbody tr.unseen td.subject-mg h5 {
+    font-weight: 600;
+}
+.compose-mail .foot .right button i {display: block;padding: 6px 0;}
+.all-mails-list .mail-list-body .mail-body > div { overflow: auto;}
+
+
+@media screen and (max-width: 650px) {
+  .all-mails-list .mail-list-body .mail-body table.table, .all-mails-list .mail-list-body .mail-body table.table tbody, .all-mails-list .mail-list-body .mail-body table.table, thead, .all-mails-list .mail-list-body .mail-body table.table tr, .all-mails-list .mail-list-body .mail-body table.table tr td {
+    display: block;
+  }
+
+  .all-mails-list .mail-list-body table tbody tr {
+      position: relative;
+  }
+
+  .all-mails-list .mail-list-body table tbody tr td.date {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 8px;
+  }
+
+  .all-mails-list .mail-list-body table tbody tr td.subject-mg {
+      padding: 0 8px 8px;
+  }
+
+  .all-mails-list .mail-list-body table tbody tr td.sender {
+      padding: 8px;
+  }
+}
+
+.delete-btn button {
+    background: transparent;
+    padding: 0;
+    border: 0;
+    color: #ff0000;
+    font-size: 16px;
+    cursor: pointer;
+}
+.delete-btn{
+	position: relative;
+	text-align: right;
+}
+.delete-btn button {
+    background: transparent;
+    padding: 0;
+    border: 0;
+    color: #ff0000;
+    font-size: 16px;
+    cursor: pointer;
+    /*position: absolute;
+    right: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;*/
+}

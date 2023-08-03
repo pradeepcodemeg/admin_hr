@@ -1,0 +1,308 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  /* display: table; */
+  /* padding-left: 50%; */
+  position: relative;
+}
+
+.my-container {
+  display: table;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  /*padding-top: 40px;*/
+  padding-bottom: 30px;
+  /*background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;*/
+}
+
+body::after {
+  content: "";
+  top: 0;
+  left: 0;
+  bottom: 30px;
+  right: 0;
+  position: fixed;
+  z-index: -1;
+  background: url(../images/firstbg-old.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  /* opacity: 0.5; */
+  /*width: 50%;*/
+}
+body::before {
+    content: "";
+    top: 0;
+    left: 0;
+    bottom: 30px;
+    position: fixed;
+    z-index: 0;
+    background: rgba(16, 131, 246, 0.5);
+    width: 100%;
+    filter: opacity(0.5);
+}
+.form-signin {
+  /*padding: 15px;*/
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control,.modal .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.form-control {
+  margin-bottom: 25px;
+}
+
+.form-signin .checkbox {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+  cursor: pointer;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+  left: 0;
+  background-color: #1083f6;
+}
+
+.footer .container {
+  width: auto;
+  max-width: 680px;
+  padding: 0 250px;
+}
+
+.footer .text-muted {
+  margin: 5px 0;
+  color: white;
+  font-size: 14px;
+}
+
+.modal-body {
+  /* margin-bottom: 35px; */
+}
+
+/***********03/02/2020*************/
+.login-form{
+  max-width: 500px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.52);
+  padding: 30px 20px;
+  border: 0;
+}
+
+.login-form form.form-signin button {
+  border-radius: 0;
+  margin-top: 10px !important;
+  font-size: 17px;
+  font-weight: 500;
+  background: #fff;
+}
+
+.login-form form.form-signin h2.form-signin-heading {
+  font-size: 28px;
+  color: #2e6da4;
+  font-weight: 600;
+  margin: 0 0 15px;
+}
+
+.login-form form.form-signin input.form-control {
+  border-radius: 4px;
+  border: 0;
+  color: #000;
+  font-size: 14px;
+}
+
+/***********03/02/2020*************/
+.login-form{
+  max-width: 500px;
+  margin: 0 auto;
+  background: rgb(255, 255, 255);
+  padding: 35px 30px 30px;
+  border: 0;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.login-form form.form-signin .btns button {
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 40px;
+  outline: none !important;
+}
+
+.login-form form.form-signin h2.form-signin-heading {
+  font-size: 26px;
+  color: #1083f6;
+  font-weight: 600;
+  margin: 0 0 25px;
+}
+
+.login-form form.form-signin input.form-control,.modal .form-control {
+  border-radius: 4px;
+  border: 0;
+  color: #000;
+  font-size: 14px;
+  border: 1px solid #eee;
+  box-shadow: none !important;
+}
+.my-container-outer {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.my-container-inner {
+    position: relative;
+    margin: 15px 0;
+    padding: 0 15px 30px;
+}
+
+.login-form form.form-signin .btns button.btn-primary {
+    background-color: #1083f6;
+    border-color: #1083f6;
+    box-shadow: 0 3px 10px rgba(16, 131, 246, 0.4);
+    margin: 0 0 20px;
+    font-weight: 600;
+}
+
+.btns {
+    padding-top: 10px;
+}
+
+.form-signin .checkbox input[type="checkbox"] {
+    opacity: 0;
+}
+
+.login-form form.form-signin input.form-control:hover, .login-form form.form-signin input.form-control:focus, .modal .form-control:hover, .modal .form-control:focus {
+    border-color: #1083f6 !important;
+}
+.modal-dialog {max-width: 500px;}
+
+.modal {
+    padding: 15px;
+}
+
+.modal-content {
+    border: 0;
+    padding-bottom: 1px;
+    overflow: hidden;
+}
+
+.modal-body {
+    padding: 10px 25px 30px;
+}
+
+.modal-content button.btn.btn-primary {
+    background-color: #1083f6;
+    border-color: #1083f6;
+    padding: 9px 20px;
+    border-radius: 50px;
+    width: 150px;
+    outline: none !important;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 10px rgba(16, 131, 246, 0.4);
+}
+
+.modal-title {
+    font-weight: 600;
+}
+
+.modal-header {
+    padding: 25px 25px 15px;
+    /* background: #1083f6; */
+    color: #1083f6;
+}
+
+.modal .form-control {}
+
+.modal-backdrop {
+    bottom: 0;
+}
+
+.modal-backdrop.in {
+    filter: alpha(opacity=30);
+    opacity: .3;
+}
+
+.login-form form.form-signin .btns button.btn-primary:hover,.modal-content button.btn.btn-primary:hover {
+    background-color: #0a74de;
+    border-color: #0a74de;
+}
+
+.btn {
+    transition: all 300ms;
+}
+
+.form-signin .checkbox input[type="checkbox"] + span {position: relative;padding-left: 30px;display: block;}
+
+.form-signin .checkbox input[type="checkbox"] + span i {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ddd;
+    display: block;
+    position: absolute;
+    left: 0;
+    border-radius: 2px;
+    background: #fff;
+}
+
+.form-signin .checkbox input[type="checkbox"] + span i:before {content: '\2713';font-weight: 600;padding: 0 2px;color: #fff;opacity: 0;visibility: hidden;line-height: 1;}
+
+.form-signin .checkbox input[type="checkbox"]:checked + span i:before {
+    color: #fff;
+    opacity: 1;
+    visibility: visible;
+}
+
+.form-signin .checkbox input[type="checkbox"]:checked + span i {
+    background: #1083f6;
+    border-color: #1083f6;
+    box-shadow: 0 3px 6px #1083f640;
+}
+
+@media screen and (max-width: 767px) {
+  .login-form { padding: 25px 20px 20px;}
+  .login-form form.form-signin h2.form-signin-heading { font-size: 22px;}
+  body::after,body::before { width: auto; }
+
+}

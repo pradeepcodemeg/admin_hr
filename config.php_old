@@ -1,0 +1,18 @@
+<?php
+
+
+try {
+    $opt = array(
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+    );
+    $pdo = new PDO('mysql:host=localhost;dbname=rgusinc_trainings', 'rgusinc_rgus', '7Qi2odyyvz', $opt);
+
+} catch (PDOException $e) {
+    echo $e->getMessage();
+}
+
+define('ABSPATH', dirname(__FILE__));
+
+define('SITE_URL', 'http://portal-rgus.com/');
+?>
