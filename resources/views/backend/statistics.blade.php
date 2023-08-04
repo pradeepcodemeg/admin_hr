@@ -172,9 +172,15 @@
                                 <label>Trainings:</label>
                                 <select size="10" class="js-select2" name="training[]" multiple>
                                     @foreach ($trainings as $training)
-                                        <option
-                                            style="background-color: {{ $t_id == $training['id'] ? '#1083f6' : '' }}; color: {{ $t_id == $training['id'] ? 'white' : '' }}"
-                                            value="{{ $training['id'] }}">{{ $training['training_name'] }}
+                                        <option value="{{ $training['id'] }}" 
+                                            @php
+                                                if($t_id)
+                                                {
+                                                    if(in_array($training['id'],$t_id)){
+                                                        echo'selected';
+                                                    }
+                                                }
+                                            @endphp>{{ $training['training_name'] }}
                                             {{ $training['status'] == 'Archive' ? '(archieved)' : '' }}
                                         </option>
                                     @endforeach
@@ -296,6 +302,15 @@
     </div>
     <script src="{{ asset('public/js/bootstrap.js') }}"></script>
     <script src="{{ asset('public/js/filter_statistics.js') }}"></script>
+
+    <script>
+        var is_draw = 'false';
+    </script>
+    @if ($draw_table)
+        <script>
+            is_draw = 'true';
+        </script>
+    @endif
     <script type="text/javascript">
         $('#statistics').on('draw.dt', function() {
             console.log('Tst0000000');
@@ -340,6 +355,7 @@
             allowClear: true,
             multiple: false
         });
+
         function iformat(icon, badge, ) {
             var originalOption = icon.element;
             var originalOptionBadge = $(originalOption).data('badge');

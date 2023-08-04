@@ -138,8 +138,10 @@ Route::group(['middleware' => ['auth', 'checkUser']], function () {
   Route::get('changeStatus', 'Trainings@changeStatus');
   Route::post('pass-users', 'Trainings@passUsers');
   Route::post('download-multiple', 'Trainings@downloadMultiple');
+  Route::post('download-multiple-new', 'Trainings@downloadMultipleNew');
   Route::get('failed-users/{id}', 'Trainings@getFailedUsers');
   Route::get('passed-users/{id}', 'Trainings@getPassedUsers');
+  Route::get('active-users-new', 'Trainings@getActiveUsers');
 
 
 
