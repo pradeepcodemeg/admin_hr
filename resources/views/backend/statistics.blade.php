@@ -15,7 +15,10 @@
         .dataTables_length {
             margin: 0 10px;
         }
-
+        body .select2-container {
+            position: relative;
+            z-index: 0;
+        }
         .topsmall {
             margin-top: 10px;
         }
@@ -75,18 +78,24 @@
 
         .select2-results__option[aria-selected=true]:before {
             font-family: fontAwesome;
-            /* content: "\f00c"; */
-            color: #fff;
-            background-color: #1083f6;
-            border: 0;
+            content: "\f00c";
+            color: #1083f6;
+            background-color: #fff;
+            border: 1px solid #1083f6;
             display: inline-block;
-            padding-left: 3px;
+            text-align: center;
+            line-height: 18px;
         }
-
+        body .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            color: #fff;
+        }
+       body .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            color: #1083f6;
+            background-color: #fff;
+        }
         .select2-container--default .select2-results__option[aria-selected=true] {
             background-color: #fff;
         }
-
         .select2-container--default .select2-results__option--highlighted[aria-selected] {
             background-color: #eaeaeb;
             color: #272727;
@@ -102,7 +111,18 @@
 
         .select2-container--default.select2-container--focus .select2-selection--multiple {
             border-color: #1083f6;
-            border-width: 2px;
+            border-width: 1px;
+        }
+        
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            padding: 0 5px;
+        }
+        
+        .select2-container--default .select2-selection--multiple {
+            padding: 0 5px;
+        }
+        
+        .select2-container--default .select2-selection--multiple {
         }
 
         .select2-container--default .select2-selection--multiple {
@@ -119,6 +139,7 @@
         .select2-selection .select2-selection--multiple:after {
             content: 'hhghgh';
         }
+        
 
         /* select with icons badges single*/
         .select-icon .select2-selection__placeholder .badge {
@@ -145,6 +166,61 @@
             border-radius: 4px;
             cursor: text;
         }
+        
+        
+        
+        .select2-container--default .select2-results__option {
+            padding-left: 40px;
+            position: relative;
+        }
+        
+        .select2-results__option:before {
+            position: absolute;
+            top: 6px;
+            left: 10px;
+        }
+        
+        .select2-container--default .select2-results__option + .select2-results__option {
+            border-top: 1px solid #eee;
+        }
+        
+        
+        body .select2-container {
+            position: relative;
+            z-index: 0;
+        }
+        
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #deeeff;
+            border: 1px solid #1083f64d;
+        }
+        
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: #000;
+        }
+        
+        .select2-container--default .select2-selection--multiple .select2-selection__clear {
+            background: #ffdada;
+            margin: 0;
+            width: 22px;
+            height: 22px;
+            text-align: center;
+            font-size: 16px;
+            line-height: 21px;
+            color: #f00;
+            border-radius: 50px;
+            position: absolute;
+            right: 5px;
+            top: 4px;
+        }
+        
+        .select2-container--default .select2-selection--multiple .select2-selection__clear:hover {
+            background: #ffcece;
+        }
+        
+        .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+            padding: 0;
+        }
     </style>
 </head>
 
@@ -152,11 +228,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         @include('backend/global/header')
     </nav>
-    <div id="statistics_processing" class="dataTables_processing panel panel-default">
-        <div class="inner">
-            <h2>Processing...</h2>
-        </div>
-    </div>
+    
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar collapse">
@@ -285,7 +357,11 @@
                         <!-- <button class="btn btn-primary form-control right"><i class="glyphicon glyphicon-print"></i></button> -->
                     </div>
                 </div>
-
+                <!--<div id="statistics_processing" class="dataTables_processing panel panel-default">-->
+                <!--    <div class="inner">-->
+                <!--        <h2>Processing...</h2>-->
+                <!--    </div>-->
+                <!--</div>-->
                 <table id="statistics" class="display" cellspacing="0" width="100%">
                     <thead>
                         <th>First Name</th>
