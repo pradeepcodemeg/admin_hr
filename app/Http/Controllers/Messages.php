@@ -61,8 +61,13 @@ class Messages extends Controller
 
     public function sendMessage(Request $request)
     {
-        $user_id = Auth::user()->id;
         $send_data = $request->all();
+
+        if(empty($send_data['message'] && $send_data['subject'])){
+            return response(['fail'=>'All fields are required.']);
+        }
+
+        $user_id = Auth::user()->id;
         if (!empty($send_data['message_id'])) {
             $msg = DB::table('messages')->where('message_id', $send_data['message_id'])->first();
         }

@@ -1,5 +1,5 @@
 <ul id="myUL1" style="list-style-type: none;">
-    <div style="text-align: center"><span id="pk_loader" style="display: none" class="glyphicon glyphicon-repeat slow-right-spinner"></span></div>
+    <div class="list-loader" id="pk_loader_pass" style="display: none" ><span class="glyphicon glyphicon-repeat slow-right-spinner"></span></div>
     @if (empty($users) || $users == '' || sizeof($users) == 0)
         <li>
             <span>No users found who have passed this training.</span>
