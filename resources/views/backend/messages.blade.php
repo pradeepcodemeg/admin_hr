@@ -69,7 +69,8 @@
                                                     </a>
                                                 </td>
                                                 <td class="date">
-                                                    <span>{{ \Carbon\Carbon::parse($my_msg->created_at)->format('D: d M yy H:i') }}</span>
+                                                    {{-- <span>{{ \Carbon\Carbon::parse($my_msg->created_at)->format('D: d M yy H:i') }}</span> --}}
+                                                    <span>{{ \Carbon\Carbon::parse($my_msg->created_at)->format('D d M Y H:i') }}</span>
                                                 </td>
 
                                                 <td class="delete-btn" data-id="{{ encrypt($msg->message_id) }}">
@@ -92,7 +93,8 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="compose-mail">
-                        <form enctype="multipart/form-data" id="frm-send" action="{{ url('send-message') }}" method="post">
+                        <form onsubmit="return false" enctype="multipart/form-data" id="frm-send"
+                            action="{{ url('send-message') }}" method="post">
                             {{ csrf_field() }}
                             <div class="m-header">
                                 <i class="glyphicon glyphicon-th-list"></i>
@@ -213,16 +215,51 @@
     <script type="text/javascript" src="{{ asset('public/js/category_filter.js') }}"></script>
 
     <script>
-        $('#frm_submit').click(function(){
-            $('#frm_submit').attr('disabled', true);
-            $('#frm_submit').css('cursor', 'not-allowed');
-            $('#frm_submit').text('sending...');
-            $("#frm-send").submit();
-        });
-        $('.mail-off').click(function(){
+        // $('#frm_submit').click(function() {
+        //     $('#frm_submit').attr('disabled', true);
+        //     $('#frm_submit').css('cursor', 'not-allowed');
+        //     $('#frm_submit').text('sending...');
+        //     $("#frm-send").submit();
+        // });
+        $('.mail-off').click(function() {
             $('#frm_submit').attr('disabled', false);
             $('#frm_submit').css('cursor', 'pointer');
             $('#frm_submit').text('Send');
+        });
+
+
+        $('#frm_submit').click(function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            $('#frm_submit').attr('disabled', true);
+            $('#frm_submit').css('cursor', 'not-allowed');
+            $('#frm_submit').text('Sending...');
+
+            var formData = new FormData($('#frm-send')[0]);
+
+            $.ajax({
+                url: $('#frm-send').attr('action'), // Get the form action URL
+                method: $('#frm-send').attr('method'), // Get the form method (POST or GET)
+                data: formData, // Use the FormData object
+                processData: false, // Prevent jQuery from processing the data
+                contentType: false, // Prevent jQuery from setting the content type
+                success: function(response) {
+                    if (response.fail) {
+                        alert(response.fail);
+                    } else {
+                        $('#compose-mail').modal('hide');
+                        window.location.reload();
+                    }
+                },
+                error: function(error) {
+                    console.error('Error submitting form:', error);
+                },
+                complete: function() {
+                    $('#frm_submit').attr('disabled', false);
+                    $('#frm_submit').css('cursor', 'pointer');
+                    $('#frm_submit').text('Submit');
+                }
+            });
         });
     </script>
 </body>

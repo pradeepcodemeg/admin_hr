@@ -23,6 +23,40 @@
         body .select2-container {
             z-index: 0;
         }
+
+
+        .well.well-wrap {
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            height: 268px;
+        }
+
+        .well.well-wrap p {
+            padding: 15px;
+        }
+
+        .well.well-wrap ul {
+            padding: 15px;
+            max-height: 100%;
+            overflow: auto;
+        }
+
+        .list-loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            background: #1083f61f;
+            z-index: 1;
+        }
+
+        .list-loader span {display: block;color: #1083f6;font-size: 26px;border-radius: 50%;}
     </style>
 </head>
 
@@ -125,8 +159,7 @@
                                 <input type="text" class="form-control" id="myInput" onkeyup="myFunction()"
                                     placeholder="Search for names.." title="Type in a name"
                                     style="width: 50%;display: inline-block"><br>
-                                <div class="well" id="users_list"
-                                    style="min-height: 268px; max-height: 268px; overflow-y: auto;">
+                                <div class="well well-wrap" id="users_list">
                                     <p>Only users those are did not pass chosen training will be displayed</p>
                                 </div>
                             </div>
@@ -194,8 +227,7 @@
                                     <input type="text" id="myInput1" style="display: inline-block;width: 70%;"
                                         class="form-control" onkeyup="myFunction1()" placeholder="Search for names.."
                                         title="Type in a name" style="width: 50%;">
-                                    <div class="well" id="users_list1"
-                                        style="min-height: 268px; max-height: 268px; overflow-y: auto;">
+                                    <div class="well well-wrap" id="users_list1">
                                         {{-- <div class="pk_loader">
                                             <span class="glyphicon glyphicon-repeat slow-right-spinner"></span>
                                         </div> --}}
@@ -248,8 +280,7 @@
                                 <input type="text" id="myInput1New" style="display: inline-block;width: 70%;"
                                     class="form-control" onkeyup="myFunction1New()" placeholder="Search for names.."
                                     title="Type in a name" style="width: 50%;">
-                                <div class="well" id="users_list1_new"
-                                    style="min-height: 268px; max-height: 268px; overflow-y: auto;">
+                                <div class="well well-wrap" id="users_list1_new">
                                     <p>Only active users </p>
                                 </div>
 
@@ -525,7 +556,7 @@
 
     <script>
         function showPassedUser(str) {
-            $('#pk_loader').show();
+            $('#pk_loader_pass').show();
 
             if (str == "") {
                 document.getElementById("users_list1").innerHTML = "";
@@ -538,7 +569,7 @@
                 }
                 xmlhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
-                        $('#pk_loader').hide();
+                        $('#pk_loader_pass').hide();
                         document.getElementById("users_list1").innerHTML = this.responseText;
                         $("#select_all_users1").prop('checked', false);
                     }
