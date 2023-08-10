@@ -229,7 +229,12 @@
 
 
         $('#frm_submit').click(function(event) {
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault();
+
+            // if ($('.js-multi-select option:selected').length === 0) {
+            //     alert('Please select at least one user.');
+            //     return;
+            // }
 
             $('#frm_submit').attr('disabled', true);
             $('#frm_submit').css('cursor', 'not-allowed');

@@ -56,7 +56,12 @@
             z-index: 1;
         }
 
-        .list-loader span {display: block;color: #1083f6;font-size: 26px;border-radius: 50%;}
+        .list-loader span {
+            display: block;
+            color: #1083f6;
+            font-size: 26px;
+            border-radius: 50%;
+        }
     </style>
 </head>
 
@@ -75,8 +80,6 @@
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 <h1 class="page-header">Manage Trainings</h1>
-
-
                 <!-- Display filename inside the button instead of its label -->
                 <div class="container-fluid">
                     <h2 class="section-heading">Delete trainings</h2>
@@ -270,18 +273,19 @@
                         <div class="sort-form col-md-5" style="padding-left: 15px;">
                             <div class="form-group">
                                 <h5 class="same-subh-heading" style="margin: 0px;">Users:</h5>
-                                <span class="custom-checkbox" style="margin-right: 15px">
+                                {{-- select all checkbox --}}
+                                {{-- <span class="custom-checkbox" style="margin-right: 15px">
                                     <label>
                                         <input type="checkbox" id="select_all_users1_new">
                                         <span><i></i> All</span>
                                     </label>
-                                </span>
+                                </span> --}}
 
                                 <input type="text" id="myInput1New" style="display: inline-block;width: 70%;"
                                     class="form-control" onkeyup="myFunction1New()" placeholder="Search for names.."
                                     title="Type in a name" style="width: 50%;">
                                 <div class="well well-wrap" id="users_list1_new">
-                                    <p>Only active users </p>
+                                    <p>Only passed users </p>
                                 </div>
 
                             </div>
@@ -336,9 +340,10 @@
                     $('#fader').css('display', 'none');
                     $('#download_button_new').show();
                     $('#downloading_button_new').hide();
+                    // window.location = baseUrl + "/manage-trainings";
                     setTimeout(function() {
                         window.location = baseUrl + "/public/" + response;
-                    }, 500);
+                    }, 1000);
                 },
                 'error': function(error) {
                     console.log("Error:: " + error);
@@ -370,6 +375,7 @@
         }
 
         function showAllUsers() {
+            document.getElementById("users_list1_new").innerHTML = "<p class='text-center'>Loading...</p>";
             if (window.XMLHttpRequest) {
                 xmlhttp = new XMLHttpRequest();
             } else {

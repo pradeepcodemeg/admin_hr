@@ -8,7 +8,7 @@
         <li>
            <span class="custom-checkbox">
                 <label>
-                    <input type="checkbox" name="users[{{$user->id}}]" value="{{$user->id}}" class="users_list1_new" onclick="db_btn_new({{$user->id}})" />
+                    <input type="checkbox" name="users[{{$user->id}}]" value="{{$user->user_id}}" class="users_list1_new" onclick="db_btn_new({{$user->id}})" />
                     <span style="font-weight: normal;"><i></i>  {{$user->firstname}} {{$user->lastname}}</span> 
                 </label>
             </span>
