@@ -92,7 +92,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="compose-mail">
-                        <form enctype="multipart/form-data" action="{{ url('send-message') }}" method="post">
+                        <form enctype="multipart/form-data" id="frm-send" action="{{ url('send-message') }}" method="post">
                             {{ csrf_field() }}
                             <div class="m-header">
                                 <i class="glyphicon glyphicon-th-list"></i>
@@ -180,13 +180,14 @@
                                 <textarea class="form-control" name="message" placeholder="Write message here..." rows="4" required></textarea>
                                 <div class="attch-img" id="preview">
                                     <!-- <a href="javascript:void(0);">
-      <img src="{{ asset('public/images/attch.jpg') }}">
-     </a> -->
+                                        <img src="{{ asset('public/images/attch.jpg') }}">
+                                    </a> -->
                                 </div>
                             </div>
                             <div class="foot clearfix">
                                 <div class="left">
-                                    <button class="send" type="submit"><i class="glyphicon glyphicon-send"></i>
+                                    <button class="send" id="frm_submit" type="submit"><i
+                                            class="glyphicon glyphicon-send"></i>
                                         &nbsp;Send</button>
                                     <button class="attachment" type="button">
                                         <label>
@@ -210,6 +211,20 @@
     <script src="{{ asset('public/js/passing_training.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/preview_img.js') }}"></script>
     <script type="text/javascript" src="{{ asset('public/js/category_filter.js') }}"></script>
+
+    <script>
+        $('#frm_submit').click(function(){
+            $('#frm_submit').attr('disabled', true);
+            $('#frm_submit').css('cursor', 'not-allowed');
+            $('#frm_submit').text('sending...');
+            $("#frm-send").submit();
+        });
+        $('.mail-off').click(function(){
+            $('#frm_submit').attr('disabled', false);
+            $('#frm_submit').css('cursor', 'pointer');
+            $('#frm_submit').text('Send');
+        });
+    </script>
 </body>
 
 </html>

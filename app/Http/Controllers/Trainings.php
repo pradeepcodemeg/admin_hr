@@ -490,7 +490,7 @@ class Trainings extends Controller
   }
   public function downloadMultipleNew(Request $request)
   {
-    ini_set('max_execution_time', 60);
+    ini_set('max_execution_time', 0);
     ini_set("memory_limit", "640M");
 
     $req = $request->except(['_token']);
@@ -512,9 +512,14 @@ class Trainings extends Controller
         return redirect()->intended('manage-trainings')->with('alert-warning-new', 'user not submit any training');
       }
 
-      $id = $training->id;
+      // $id = $training->id;  //this is submit training id
+      $id = $training->training_id;  // this is training id
+
+
       $files = glob("public/certificates/$id" . '/*'); // get all file names
+
       foreach ($files as $file) { // iterate files
+
         if (is_file($file))
           unlink($file); // delete file
       }
@@ -528,11 +533,125 @@ class Trainings extends Controller
     $assets = [];
     $j = 0;
     for ($i = 0; $i < sizeof($usr_arr); $i++) {
-      $sql = "SELECT submit_trainings.*,users.id as user_id,users.email from `submit_trainings` LEFT JOIN users on submit_trainings.user_id = users.id WHERE `training_id` = $id and `user_id` = $usr_arr[$i] GROUP BY users.id";
+      $sql = "SELECT submit_trainings.*, users.id as user_id, users.email 
+            FROM  `submit_trainings`
+            LEFT JOIN users ON submit_trainings.user_id = users.id 
+            WHERE `training_id` = $id AND `user_id` = $usr_arr[$i] 
+            GROUP BY users.id";
       $data = DB::select($sql);
 
       if (empty($data)) {
         return Redirect::to('manage-trainings')->with('alert-danger-new', 'Something went wrong');
+      }
+
+      $trn_srt_folder_url = "public/certificates";
+      $trn_title = $data[0]->training_name;
+      $ut_passing_date = $data[0]->passing_date;
+      $trn_credit_hours = $data[0]->credit_hours;
+
+      $im = imagecreatefrompng('public/images/certificate.png');
+      $text_color = imagecolorresolve($im, 0, 0, 0);
+
+      $black = imagecolorallocate($im, 0, 0, 0);
+      $name = $data[0]->firstname . " " . $data[0]->lastname;
+      $subject = 'Subject Material: ' . $trn_title;
+      $year = date("Y");
+
+      $trn_credit_hours = date('h:i', strtotime($trn_credit_hours));
+      $passing_date = date('Y', strtotime($data[0]->passing_date));
+
+      $credit_hours_row_text = "For completing {$trn_credit_hours} credit hour(s) of {$passing_date} In-Service Training";
+      $date = 'Date: ' . date("m/d/Y", strtotime($ut_passing_date));
+      $font_bold_italic = public_path('/fonts/timesbi.ttf');
+      $font_italic = public_path('/fonts/timesi.ttf');
+      $font_regular =  public_path('/fonts/times.ttf');
+
+      $root_dir = str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
+
+      $fl_title = $data[0]->lastname . "_" . $data[0]->firstname . '_' . $trn_title . '_' . date("m_Y") . '_' . $i . ".jpg";
+
+      $cut_folder_name = explode('/', $trn_srt_folder_url);
+
+      $cut_folder_name = $cut_folder_name[1];
+      $usr_srt_folder = $_SERVER['DOCUMENT_ROOT'] . $root_dir . 'public/' . $cut_folder_name . "/$id" . '/' . $fl_title; //this saves the image 
+      $srt_folder = $_SERVER['DOCUMENT_ROOT'] . $root_dir . 'public/' . $cut_folder_name . "/$id" . '/' . $fl_title;
+      
+      imagettftext($im, 80, 0, 820, 880, $text_color, $font_bold_italic, $name);
+      imagettftext($im, 30, 0, 610, 994, $text_color, $font_italic, $credit_hours_row_text);
+      imagettftext($im, 28, 0, 610, 1053, $text_color, $font_italic, $subject);
+      imagettftext($im, 28, 0, 975, 1110, $text_color, $font_regular, $date);
+
+      imagejpeg($im, $usr_srt_folder, 9);
+      imagejpeg($im, $srt_folder, 9);
+      imagedestroy($im);
+      
+      if (file_exists($srt_folder)) {
+        $assets[$j]['name'] = $fl_title;
+        $assets[$j]['url'] = 'public/' . $cut_folder_name . "/$id" . '/' . $fl_title;
+        $j++;
+      } else {
+        return 'Somthing went wrong!';
+      }
+    }
+
+    $zip = new \ZipArchive();
+    $fileName = time() . "_" . $id;
+
+    if ($zip->open(public_path("certificates/" . $id . "/" . $fileName . ".zip"), ZipArchive::CREATE) === TRUE) {
+      $files = File::files(public_path('certificates/' . $id));
+      foreach ($files as $key => $value) {
+        $relativeNameInZipFile = basename($value);
+        $zip->addFile($value, $relativeNameInZipFile);
+      }
+      $zip->close();
+    }
+
+    DB::table('certificate_image')->insert(['name' => $fileName . '.zip', 'url' => 'public/certificates/' . $id . '/' . $fileName . '.zip']);
+
+    if (file_exists('public/certificates/' . $id . '/' . $fl_title)) {
+      unlink('public/certificates/' . $id . '/' . $fl_title);
+    }
+
+    echo "certificates/" . $id . "/" . $fileName . ".zip";
+
+    // return response()->download(public_path("certificates/".$id."/".$fileName.".zip"));
+  }
+  public function downloadMultiple(Request $request)
+  {
+    ini_set('max_execution_time', 0);
+    ini_set("memory_limit", "640M");
+
+    $certificates = $request->except(['_token']);
+
+    if (empty($certificates['training']) || empty($certificates['users'])) {
+      return redirect()->intended('manage-trainings')->with('alert-warning', 'Please select both training and users');
+    }
+
+    $id = $certificates['training'];
+    $files = glob("public/certificates/$id" . '/*'); // get all file names
+    foreach ($files as $file) { // iterate files
+      if (is_file($file))
+        unlink($file); // delete file
+    }
+    $create_path = 'public/certificates/' . $id;
+    if (!is_dir($create_path)) {
+      File::makeDirectory($create_path);
+    }
+
+    $usr_arr = $certificates['users'];
+    if (sizeof($usr_arr) == 0 || count($usr_arr) == 0) {
+      return redirect()->intended('manage-trainings')->with('alert-warning', 'Select users');
+    }
+    $usr_arr = array_values($usr_arr);
+    $assets = [];
+    $j = 0;
+    for ($i = 0; $i < sizeof($usr_arr); $i++) {
+
+      $sql = "SELECT submit_trainings.*,users.id as user_id,users.email from    `submit_trainings` LEFT JOIN users on submit_trainings.user_id = users.id WHERE `training_id` = $id and `user_id` = $usr_arr[$i] GROUP BY users.id";
+      $data = DB::select($sql);
+
+      if (empty($data)) {
+        return Redirect::to('manage-trainings')->with('alert-danger', 'Something went wrong');
       }
 
       $trn_srt_folder_url = "public/certificates";
@@ -654,114 +773,6 @@ class Trainings extends Controller
     return redirect()->intended('manage-trainings')->with('alert-complete-success', 'Success');
   }
 
-  public function downloadMultiple(Request $request)
-  {
-    ini_set('max_execution_time', 0);
-    ini_set("memory_limit", "640M");
-
-    $certificates = $request->except(['_token']);
-
-    if (empty($certificates['training']) || empty($certificates['users'])) {
-      return redirect()->intended('manage-trainings')->with('alert-warning', 'Please select both training and users');
-    }
-
-    $id = $certificates['training'];
-    $files = glob("public/certificates/$id" . '/*'); // get all file names
-    foreach ($files as $file) { // iterate files
-      if (is_file($file))
-        unlink($file); // delete file
-    }
-    $create_path = 'public/certificates/' . $id;
-    if (!is_dir($create_path)) {
-      File::makeDirectory($create_path);
-    }
-
-    $usr_arr = $certificates['users'];
-    if (sizeof($usr_arr) == 0 || count($usr_arr) == 0) {
-      return redirect()->intended('manage-trainings')->with('alert-warning', 'Select users');
-    }
-    $usr_arr = array_values($usr_arr);
-    $assets = [];
-    $j = 0;
-    for ($i = 0; $i < sizeof($usr_arr); $i++) {
-
-      $sql = "SELECT submit_trainings.*,users.id as user_id,users.email from    `submit_trainings` LEFT JOIN users on submit_trainings.user_id = users.id WHERE `training_id` = $id and `user_id` = $usr_arr[$i] GROUP BY users.id";
-      $data = DB::select($sql);
-
-      if (empty($data)) {
-        return Redirect::to('manage-trainings')->with('alert-danger', 'Something went wrong');
-      }
-
-      $trn_srt_folder_url = "public/certificates";
-      $trn_title = $data[0]->training_name;
-      $ut_passing_date = $data[0]->passing_date;
-      $trn_credit_hours = $data[0]->credit_hours;
-
-      $im = imagecreatefrompng('public/images/certificate.png');
-      $text_color = imagecolorresolve($im, 0, 0, 0);
-      $black = imagecolorallocate($im, 0, 0, 0);
-      $name = $data[0]->firstname . " " . $data[0]->lastname;
-      $subject = 'Subject Material: ' . $trn_title;
-      $year = date("Y");
-
-      $trn_credit_hours = date('h:i', strtotime($trn_credit_hours));
-      $passing_date = date('Y', strtotime($data[0]->passing_date));
-
-      $credit_hours_row_text = "For completing {$trn_credit_hours} credit hour(s) of {$passing_date} In-Service Training";
-      $date = 'Date: ' . date("m/d/Y", strtotime($ut_passing_date));
-      $font_bold_italic = 'public/fonts/timesbi.ttf';
-      $font_italic = 'public/fonts/timesi.ttf';
-      $font_regular = 'public/fonts/times.ttf';
-
-      $root_dir = str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
-
-      $fl_title = $data[0]->lastname . "_" . $data[0]->firstname . '_' . $trn_title . '_' . date("m_Y") . '_' . $i . ".jpg";
-
-      $cut_folder_name = explode('/', $trn_srt_folder_url);
-      $cut_folder_name = $cut_folder_name[1];
-      $usr_srt_folder = $_SERVER['DOCUMENT_ROOT'] . $root_dir . 'public/' . $cut_folder_name . "/$id" . '/' . $fl_title; //this saves the image 
-      $srt_folder = $_SERVER['DOCUMENT_ROOT'] . $root_dir . 'public/' . $cut_folder_name . "/$id" . '/' . $fl_title;
-
-      imagettftext($im, 80, 0, 820, 880, $text_color, $font_bold_italic, $name);
-      imagettftext($im, 30, 0, 610, 994, $text_color, $font_italic, $credit_hours_row_text);
-      imagettftext($im, 28, 0, 610, 1053, $text_color, $font_italic, $subject);
-      imagettftext($im, 28, 0, 975, 1110, $text_color, $font_regular, $date);
-
-      imagejpeg($im, $usr_srt_folder, 9);
-      imagejpeg($im, $srt_folder, 9);
-      imagedestroy($im);
-
-      if (file_exists($srt_folder)) {
-        $assets[$j]['name'] = $fl_title;
-        $assets[$j]['url'] = 'public/' . $cut_folder_name . "/$id" . '/' . $fl_title;
-        $j++;
-      } else {
-        return 'Somthing went wrong!';
-      }
-    }
-
-    $zip = new \ZipArchive();
-    $fileName = time() . "_" . $id;
-
-    if ($zip->open(public_path("certificates/" . $id . "/" . $fileName . ".zip"), ZipArchive::CREATE) === TRUE) {
-      $files = File::files(public_path('certificates/' . $id));
-      foreach ($files as $key => $value) {
-        $relativeNameInZipFile = basename($value);
-        $zip->addFile($value, $relativeNameInZipFile);
-      }
-      $zip->close();
-    }
-
-    DB::table('certificate_image')->insert(['name' => $fileName . '.zip', 'url' => 'public/certificates/' . $id . '/' . $fileName . '.zip']);
-
-    if (file_exists('public/certificates/' . $id . '/' . $fl_title)) {
-      unlink('public/certificates/' . $id . '/' . $fl_title);
-    }
-
-    echo "certificates/" . $id . "/" . $fileName . ".zip";
-
-    // return response()->download(public_path("certificates/".$id."/".$fileName.".zip"));
-  }
 
   public function remindTraining($id)
   {

@@ -196,6 +196,9 @@
                                         title="Type in a name" style="width: 50%;">
                                     <div class="well" id="users_list1"
                                         style="min-height: 268px; max-height: 268px; overflow-y: auto;">
+                                        {{-- <div class="pk_loader">
+                                            <span class="glyphicon glyphicon-repeat slow-right-spinner"></span>
+                                        </div> --}}
                                         <p>Only users those have passed choosen training will be displayed</p>
                                     </div>
 
@@ -495,6 +498,7 @@
 
     <script>
         function showUser(str) {
+            $('#pk_loader').show();
             if (str == "") {
                 document.getElementById("users_list").innerHTML = "";
                 return;
@@ -508,6 +512,7 @@
                 }
                 xmlhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
+                        $('#pk_loader').hide();
                         document.getElementById("users_list").innerHTML = this.responseText;
                         $("#select_all_users").prop('checked', false);
                     }
@@ -520,6 +525,8 @@
 
     <script>
         function showPassedUser(str) {
+            $('#pk_loader').show();
+
             if (str == "") {
                 document.getElementById("users_list1").innerHTML = "";
                 return;
@@ -531,6 +538,7 @@
                 }
                 xmlhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
+                        $('#pk_loader').hide();
                         document.getElementById("users_list1").innerHTML = this.responseText;
                         $("#select_all_users1").prop('checked', false);
                     }
@@ -538,7 +546,6 @@
                 xmlhttp.open("GET", "passed-users/" + str, true);
                 xmlhttp.send();
             }
-
         }
     </script>
     <script type="text/javascript">
