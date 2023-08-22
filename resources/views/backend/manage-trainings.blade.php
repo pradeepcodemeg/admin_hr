@@ -257,7 +257,7 @@
 
                 {{-- Download by user --}}
                 <div class="container-fluid tcm">
-                    <h2 class="section-heading">Download Certificates by User</h2>
+                    <h2 class="section-heading">Download Certificates By User (No more then 3 users at time)</h2>
                 </div>
                 @if ($alert = Session::get('alert-warning-new'))
                     <div class="alert alert-warning" id="msg-div">

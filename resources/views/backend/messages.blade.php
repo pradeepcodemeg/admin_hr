@@ -93,8 +93,8 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="compose-mail">
-                        <form onsubmit="return false" enctype="multipart/form-data" id="frm-send"
-                            action="{{ url('send-message') }}" method="post">
+                        <form enctype="multipart/form-data" id="frm-send"
+                            action="{{ url('send-message') }}" method="post" onsubmit="return false" >
                             {{ csrf_field() }}
                             <div class="m-header">
                                 <i class="glyphicon glyphicon-th-list"></i>
@@ -230,7 +230,10 @@
 
         $('#frm_submit').click(function(event) {
             event.preventDefault();
-
+            var subject =  $("input:text[name='subject']").val();
+            if(!subject){
+                alert('Subject fiels is required');
+            }
             // if ($('.js-multi-select option:selected').length === 0) {
             //     alert('Please select at least one user.');
             //     return;

@@ -7,6 +7,8 @@ use App\User;
 use App\MessageUserRelation;
 use Auth;
 use DB;
+use App\Mail\sendSMs;
+use Illuminate\Support\Facades\Mail;
 
 class Messages extends Controller
 {
@@ -62,18 +64,21 @@ class Messages extends Controller
     public function sendMessage(Request $request)
     {
         $send_data = $request->all();
-
-        if(empty($send_data['message'] && $send_data['subject'])){
-            return response(['fail'=>'All fields are required.']);
+        
+        if (empty($send_data['message'])) {
+            return response(['fail' => 'The message field is required.']);
         }
 
         $user_id = Auth::user()->id;
         if (!empty($send_data['message_id'])) {
             $msg = DB::table('messages')->where('message_id', $send_data['message_id'])->first();
         }
-        $message_id = DB::table('messages')->insertGetId(
-            array('subject' => !empty($send_data['subject']) ? $send_data['subject'] : $msg->subject, 'message' => $send_data['message'], "created_at" =>  \Carbon\Carbon::now(), "updated_at" =>  \Carbon\Carbon::now())
-        );
+        $message_id = DB::table('messages')->insertGetId([
+            'subject' => !empty($send_data['subject']) ? $send_data['subject'] : $msg->subject,
+            'message' => $send_data['message'],
+            "created_at" =>  \Carbon\Carbon::now(),
+            "updated_at" =>  \Carbon\Carbon::now()
+        ]);
 
         if (!empty($send_data['users'])) {
             foreach ($send_data['users'] as $receiver_id) {
@@ -92,6 +97,8 @@ class Messages extends Controller
                     $data['email_template'] = 'email/template6';
 
                     send_mail($data);
+
+                    // Mail::to($data['to'])->send(new sendSMs($data));
 
                     DB::table('message_user_relation')->insert(
                         ['message_id' => $message_id, 'sender_id' => $user_id, 'receiver_id' => $receiver_id, "created_at" =>  \Carbon\Carbon::now(), "updated_at" =>  \Carbon\Carbon::now()]
