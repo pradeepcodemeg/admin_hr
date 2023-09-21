@@ -64,7 +64,7 @@ Route::group(['middleware' => ['auth']], function () {
 });
 
 
-Route::get('messages', 'Messages@index');
+Route::get('messages', 'Messages@index')->middleware('auth');
 Route::get('outbox-messages', 'Messages@outbox');
 
 Route::post('send-message', 'Messages@sendMessage');
@@ -124,7 +124,7 @@ Route::group(['middleware' => ['auth', 'checkUser']], function () {
   Route::get('add-user', function () {
     return view('backend/add-user');
   });
-  Route::post('add-user', 'AuthController@addUser');
+  Route::post('add-user', 'AuthController@addUser'); 
   Route::get('edit-user/{id}', 'AuthController@editUser');
   Route::post('update-user/{id}', 'AuthController@updateUser');
   Route::get('user-management/delete/{id}', 'AuthController@destroy');

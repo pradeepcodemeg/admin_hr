@@ -321,7 +321,10 @@ class Trainings extends Controller
         }
       } else {
         if (!empty(\Session::get('is_trainig_sort'))) {
-          $data = DB::table('submit_trainings')->whereIn('training_id', \Session::get('is_trainig_sort'))->orderBy('id', 'desc')
+          $data = DB::table('submit_trainings')
+            ->whereIn('training_id', \Session::get('is_trainig_sort'))
+            ->groupBy('user_id')
+            ->orderBy('id', 'desc')
             ->get();
         } else {
           $data = DB::table('submit_trainings')->orderBy('id', 'desc')->limit(10)
@@ -439,8 +442,12 @@ class Trainings extends Controller
     $file = Training::find($id);
 
     if (!empty($file)) {
-      if (file_exists('public/assets/admin/pdf/' . $file['file'])) {
-        unlink('public/assets/admin/pdf/' . $file['file']);
+      // if (file_exists('public/assets/admin/pdf/' . $file['file'])) {
+      //   unlink('public/assets/admin/pdf/' . $file['file']);
+      // }
+      
+      if (file_exists(asset('assets/admin/pdf/' . $file['file']))) {
+        unlink(asset('assets/admin/pdf/' . $file['file']));
       }
       DB::table('questions')->where('training_id', $id)->delete();
       DB::table('submit_trainings')->where('training_id', $id)->delete();
@@ -801,7 +808,7 @@ class Trainings extends Controller
     $j = 0;
     for ($i = 0; $i < sizeof($usr_arr); $i++) {
 
-      $sql = "SELECT submit_trainings.*,users.id as user_id,users.email from    `submit_trainings` LEFT JOIN users on submit_trainings.user_id = users.id WHERE `training_id` = $id and `user_id` = $usr_arr[$i] GROUP BY users.id";
+      $sql = "SELECT submit_trainings.*,users.id as user_id,users.email,users.role from  `submit_trainings` LEFT JOIN users on submit_trainings.user_id = users.id WHERE `training_id` = $id and `user_id` = $usr_arr[$i] GROUP BY users.id";
       $data = DB::select($sql);
 
       if (empty($data)) {
@@ -822,8 +829,14 @@ class Trainings extends Controller
 
       $trn_credit_hours = date('h:i', strtotime($trn_credit_hours));
       $passing_date = date('Y', strtotime($data[0]->passing_date));
+      
+    //   if($data[0]->role !== 'Preservice'){
+    //     $service = 'In-Service';
+    //   }else{
+        $service = 'Pre-Service';
+    //   }
 
-      $credit_hours_row_text = "For completing {$trn_credit_hours} credit hour(s) of {$passing_date} In-Service Training";
+      $credit_hours_row_text = "For completing {$trn_credit_hours} credit hour(s) of {$passing_date} {$service} Training";
       $date = 'Date: ' . date("m/d/Y", strtotime($ut_passing_date));
       $font_bold_italic = public_path('/fonts/timesbi.ttf');
       $font_italic = public_path('/fonts/timesi.ttf');
