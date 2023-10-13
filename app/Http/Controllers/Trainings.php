@@ -300,23 +300,30 @@ class Trainings extends Controller
 
   public function statistics(Request $request)
   {
-    ini_set("memory_limit", "256M");
-    ini_set("upload_max_size", "256M");
-    ini_set("post_max_size", "256M");
-    ini_set("upload_max_filesize", "256M");
-    ini_set("max_execution_time", "300");
-    ini_set("max_input_time", "1000");
+    // ini_set("memory_limit", "256M");
+    // ini_set("upload_max_size", "256M");
+    // ini_set("post_max_size", "256M");
+    // ini_set("upload_max_filesize", "256M");
+    // ini_set("max_execution_time", "300");
+    // ini_set("max_input_time", "1000");
+    
     if (request()->ajax()) {
       if (!empty($request->min) && !empty($request->max)) {
+        \Session::put('min_date', $request->min);
+        \Session::put('max_date', $request->max);
         if (!empty(\Session::get('is_trainig_sort'))) {
           $data = DB::table('submit_trainings')
             ->whereIn('training_id', \Session::get('is_trainig_sort'))
-            ->whereBetween('passing_date', [$request->min, $request->max])->orderBy('id', 'desc')
+            ->whereBetween('passing_date', [$request->min, $request->max])
+            ->groupBy('user_id')
+            ->orderBy('id', 'desc')
             ->get();
         } else {
           $data = DB::table('submit_trainings')
             ->where('passing_date', '>=', $request->min)
-            ->where('passing_date', '<=', $request->max)->orderBy('id', 'desc')
+            ->where('passing_date', '<=', $request->max)
+            ->groupBy('user_id')
+            ->orderBy('id', 'desc')
             ->get();
         }
       } else {
@@ -327,7 +334,10 @@ class Trainings extends Controller
             ->orderBy('id', 'desc')
             ->get();
         } else {
-          $data = DB::table('submit_trainings')->orderBy('id', 'desc')->limit(10)
+          $data = DB::table('submit_trainings')
+            ->orderBy('id', 'desc')
+            ->groupBy('user_id')
+            ->limit(10)
             ->get();
         }
       }
@@ -355,11 +365,29 @@ class Trainings extends Controller
 
   public function excelStatistics(Request $request)
   {
+    // dd($request->all());
     if (!empty($_REQUEST['training'])) {
-      $data = DB::table('submit_trainings')->select('firstname', 'lastname', 'training_name', 'passed', 'passing_date', 'credit_hours')->whereIn('training_id', explode(',', $_REQUEST['training']))->get();
-    } else {
-      $data = DB::table('submit_trainings')->select('firstname', 'lastname', 'training_name', 'passed', 'passing_date', 'credit_hours')->get();
+      $data = DB::table('submit_trainings')
+        ->select('firstname', 'lastname', 'training_name', 'passed', 'passing_date', 'credit_hours')
+        ->whereIn('training_id', explode(',', $_REQUEST['training']))
+        ->groupBy('user_id')
+        ->get();
+    } 
+    else if (!empty(\Session::get('min_date')) && !empty(\Session::get('max_date'))) {
+        $data = DB::table('submit_trainings')
+        ->select('firstname', 'lastname', 'training_name', 'passed', 'passing_date', 'credit_hours')
+        ->where('passing_date', '>=', \Session::get('min_date'))
+        ->where('passing_date', '<=', \Session::get('max_date'))
+        ->groupBy('user_id')
+        ->get();
+    } 
+    else {
+      $data = DB::table('submit_trainings')
+        ->select('firstname', 'lastname', 'training_name', 'passed', 'passing_date', 'credit_hours')
+        ->groupBy('user_id')
+        ->get();
     }
+    // dd($data);
     //$data = $data;
     $timestamp = time();
     $filename = 'Learning management system_' . $timestamp . '.xls';
@@ -445,7 +473,7 @@ class Trainings extends Controller
       // if (file_exists('public/assets/admin/pdf/' . $file['file'])) {
       //   unlink('public/assets/admin/pdf/' . $file['file']);
       // }
-      
+
       if (file_exists(asset('assets/admin/pdf/' . $file['file']))) {
         unlink(asset('assets/admin/pdf/' . $file['file']));
       }
@@ -829,12 +857,12 @@ class Trainings extends Controller
 
       $trn_credit_hours = date('h:i', strtotime($trn_credit_hours));
       $passing_date = date('Y', strtotime($data[0]->passing_date));
-      
-    //   if($data[0]->role !== 'Preservice'){
-    //     $service = 'In-Service';
-    //   }else{
-        $service = 'Pre-Service';
-    //   }
+
+      //   if($data[0]->role !== 'Preservice'){
+      //     $service = 'In-Service';
+      //   }else{
+      $service = 'Pre-Service';
+      //   }
 
       $credit_hours_row_text = "For completing {$trn_credit_hours} credit hour(s) of {$passing_date} {$service} Training";
       $date = 'Date: ' . date("m/d/Y", strtotime($ut_passing_date));
